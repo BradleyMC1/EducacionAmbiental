@@ -1,0 +1,141 @@
+CREATE DATABASE EducacionAmbiental
+-- Tabla USUARIO
+CREATE TABLE USUARIO (
+    ID_Usuario INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Apellidos VARCHAR(50),
+    Correo VARCHAR(100),
+    Contrasena VARCHAR(100)
+);
+
+-- Tabla PROGRESO
+CREATE TABLE PROGRESO (
+    ID_Progreso INT PRIMARY KEY,
+    Porcentaje DECIMAL(5,2),
+    FechaInicio DATE,
+    FechaActualizada DATE,
+    ID_Usuario INT FOREIGN KEY REFERENCES USUARIO(ID_Usuario)
+);
+
+-- Tabla RENDIMIENTO
+CREATE TABLE RENDIMIENTO (
+    ID_Rendimiento INT PRIMARY KEY,
+    NivelAcademico VARCHAR(50),
+    Porcentaje_de_Pasar DECIMAL(5,2),
+    Porcentaje_de_Quedarse DECIMAL(5,2),
+    FechaEvaluada DATE,
+    ProgresoGlobal DECIMAL(5,2),
+    ID_Usuario INT FOREIGN KEY REFERENCES USUARIO(ID_Usuario)
+);
+
+-- Tabla DOCENTE
+CREATE TABLE DOCENTE (
+    ID_Docente INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Apellidos VARCHAR(50),
+    Correo VARCHAR(100),
+    Contrasena VARCHAR(100),
+    Curso VARCHAR(100)
+);
+
+-- Tabla MODULO
+CREATE TABLE MODULO (
+    ID_Modulo INT PRIMARY KEY,
+    Titulo VARCHAR(100),
+    Descripcion TEXT,
+    Nivel VARCHAR(50),
+    ID_Docente INT FOREIGN KEY REFERENCES DOCENTE(ID_Docente),
+    ID_Categoria INT -- Se agregará la relación a continuación
+);
+
+-- Tabla CATEGORIA
+CREATE TABLE CATEGORIA (
+    ID_Categoria INT PRIMARY KEY,
+    Nombre VARCHAR(50)
+);
+
+-- Relación entre MODULO y CATEGORIA
+ALTER TABLE MODULO
+ADD CONSTRAINT FK_Modulo_Categoria FOREIGN KEY (ID_Categoria)
+REFERENCES CATEGORIA(ID_Categoria);
+
+-- Tabla ACTIVIDAD 
+CREATE TABLE ACTIVIDAD (
+    ID_Actividad INT PRIMARY KEY,
+    Titulo VARCHAR(100),
+    Descripcion TEXT,
+    Recurso VARCHAR(200),
+    ID_Modulo INT FOREIGN KEY REFERENCES MODULO(ID_Modulo),
+    ID_Progreso INT FOREIGN KEY REFERENCES PROGRESO(ID_Progreso)
+);
+
+-- Insertar datos en USUARIO (usuarios interesados en educación ambiental)
+INSERT INTO USUARIO (ID_Usuario, Nombre, Apellidos, Correo, Contrasena) VALUES
+(1, 'Ana', 'Gómez', 'ana.gomez@ecoweb.com', 'verde123'),
+(2, 'Luis', 'Martínez', 'luis.martinez@ecoweb.com', 'bosque456'),
+(3, 'María', 'Pérez', 'maria.perez@ecoweb.com', 'río789'),
+(4, 'Jorge', 'Ramírez', 'jorge.ramirez@ecoweb.com', 'tierra321'),
+(5, 'Sofía', 'López', 'sofia.lopez@ecoweb.com', 'sol654'),
+(6, 'Carlos', 'Fernández', 'carlos.fernandez@ecoweb.com', 'eco987'),
+(7, 'Laura', 'Vargas', 'laura.vargas@ecoweb.com', 'agua159');
+
+-- Insertar datos en PROGRESO (avances en cursos o módulos ambientales)
+INSERT INTO PROGRESO (ID_Progreso, Porcentaje, FechaInicio, FechaActualizada, ID_Usuario) VALUES
+(1, 30.00, '2025-03-01', '2025-04-01', 1),
+(2, 55.00, '2025-02-15', '2025-04-10', 2),
+(3, 70.00, '2025-03-05', '2025-04-15', 3),
+(4, 20.00, '2025-03-10', '2025-03-25', 4),
+(5, 40.00, '2025-03-20', '2025-04-05', 5),
+(6, 60.00, '2025-03-12', '2025-04-12', 6),
+(7, 80.00, '2025-03-01', '2025-04-20', 7);
+
+-- Insertar datos en RENDIMIENTO (evaluación del aprendizaje en temas ambientales)
+INSERT INTO RENDIMIENTO (ID_Rendimiento, NivelAcademico, Porcentaje_de_Pasar, Porcentaje_de_Quedarse, FechaEvaluada, ProgresoGlobal, ID_Usuario) VALUES
+(1, 'Básico', 90.00, 10.00, '2025-04-01', 75.00, 1),
+(2, 'Intermedio', 85.00, 15.00, '2025-04-10', 65.00, 2),
+(3, 'Avanzado', 92.00, 8.00, '2025-04-15', 80.00, 3),
+(4, 'Básico', 70.00, 30.00, '2025-03-25', 60.00, 4),
+(5, 'Intermedio', 88.00, 12.00, '2025-04-05', 72.00, 5),
+(6, 'Avanzado', 95.00, 5.00, '2025-04-12', 85.00, 6),
+(7, 'Básico', 78.00, 22.00, '2025-04-20', 70.00, 7);
+
+-- Insertar datos en DOCENTE (instructores expertos en temas ambientales)
+INSERT INTO DOCENTE (ID_Docente, Nombre, Apellidos, Correo, Contrasena, Curso) VALUES
+(1, 'Pedro', 'Sánchez', 'pedro.sanchez@ecoedu.com', 'ambiente123', 'Conservación Ambiental'),
+(2, 'Marta', 'Ríos', 'marta.rios@ecoedu.com', 'bosque456', 'Energías Renovables'),
+(3, 'Javier', 'Torres', 'javier.torres@ecoedu.com', 'agua789', 'Gestión de Residuos'),
+(4, 'Lucía', 'Morales', 'lucia.morales@ecoedu.com', 'clima321', 'Cambio Climático'),
+(5, 'Andrés', 'García', 'andres.garcia@ecoedu.com', 'flora654', 'Biodiversidad'),
+(6, 'Elena', 'Díaz', 'elena.diaz@ecoedu.com', 'fauna987', 'Fauna y Flora'),
+(7, 'Raúl', 'Pérez', 'raul.perez@ecoedu.com', 'agua159', 'Educación Ambiental');
+
+-- Insertar datos en CATEGORIA (temas relacionados con la educación ambiental)
+INSERT INTO CATEGORIA (ID_Categoria, Nombre) VALUES
+(1, 'Conservación'),
+(2, 'Energía'),
+(3, 'Residuos'),
+(4, 'Cambio Climático'),
+(5, 'Biodiversidad'),
+(6, 'Fauna y Flora'),
+(7, 'Educación');
+
+-- Insertar datos en MODULO (módulos de aprendizaje ambiental)
+INSERT INTO MODULO (ID_Modulo, Titulo, Descripcion, Nivel, ID_Docente, ID_Categoria) VALUES
+(1, 'Principios de Conservación', 'Conceptos básicos para conservar el medio ambiente.', 'Básico', 1, 1),
+(2, 'Introducción a Energías Renovables', 'Tipos y beneficios de energías limpias.', 'Intermedio', 2, 2),
+(3, 'Manejo de Residuos Sólidos', 'Prácticas para gestionar residuos en la comunidad.', 'Intermedio', 3, 3),
+(4, 'Impactos del Cambio Climático', 'Causas y efectos del cambio climático global.', 'Avanzado', 4, 4),
+(5, 'Diversidad Biológica', 'Importancia y conservación de la biodiversidad.', 'Básico', 5, 5),
+(6, 'Fauna y Flora Local', 'Estudio de especies y su protección.', 'Intermedio', 6, 6),
+(7, 'Educación para la Sostenibilidad', 'Herramientas para promover la educación ambiental.', 'Avanzado', 7, 7);
+
+-- Insertar datos en ACTIVIDAD (actividades relacionadas a los módulos)
+INSERT INTO ACTIVIDAD (ID_Actividad, Titulo, Descripcion, Recurso, ID_Modulo, ID_Progreso) VALUES
+(1, 'Evaluación Conservación', 'Cuestionario sobre principios básicos de conservación.', 'conservacion_quiz.pdf', 1, 1),
+(2, 'Proyecto Energías Renovables', 'Elaborar un informe sobre energía solar.', 'energia_proyecto.docx', 2, 2),
+(3, 'Campaña de Reciclaje', 'Planificar una campaña de reciclaje comunitaria.', 'reciclaje_plan.pdf', 3, 3),
+(4, 'Reporte Cambio Climático', 'Analizar efectos locales del cambio climático.', 'clima_reporte.docx', 4, 4),
+(5, 'Informe Biodiversidad', 'Investigar especies en riesgo.', 'biodiversidad_informe.pdf', 5, 5),
+(6, 'Observación Fauna', 'Registrar observaciones de fauna local.', 'fauna_observacion.xlsx', 6, 6),
+(7, 'Taller de Sostenibilidad', 'Diseñar materiales educativos para escuelas.', 'sostenibilidad_taller.pptx', 7, 7);
+
