@@ -1,8 +1,10 @@
 # EducacionAmbiental
 ---
 ### Importante
-**Es una simulación sobre lo que seria el backend de una pagina web, ademas cabe aclarar que tiene una base de datos el cual es SQL SERVER por lo que los datos no pueden guardarse al momento de probar el programa o pueden dar error, en la carpeta "SCRIPT" se encuentra la creacion de base de datos y los componentes necesarios para que la base de datos funcione correctamente**
+**Es una simulación sobre lo que seria el backend de una pagina web, ademas cabe aclarar que tiene una base de datos el cual es SQL SERVER por lo que los datos no pueden guardarse al momento de probar el programa o pueden dar error, en la carpeta "SCRIPT" (branch Main) se encuentra la creacion de base de datos y los componentes necesarios para que la base de datos funcione correctamente**
 
+---
+**La aplicacion se tiene que clonar o descargar desde el branch Master**
 ---
 
 ### Descripción
